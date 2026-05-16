@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivan's Life OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4A843;--gl:#F0C96A;--bg:#080B14;--bg2:#0F1420;--bg3:#161D2E;--bg4:#1E2840;--tx:#F0EDE8;--muted:#8892A4;--muted2:#5A6478;--cb:rgba(255,255,255,0.06);--green:#2ECC71;--red:#E74C3C;--blue:#4A7CFF;--purple:#9B59B6;--teal:#1ABC9C;--orange:#E67E22;--pink:#E91E8C;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px;}
+#LS{position:fixed;inset:0;background:#ffffff;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.ll{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:#B8860B;text-align:center;margin-bottom:4px;}
+.ls{color:#666;font-size:13px;margin-bottom:36px;text-align:center;}
+.lc{background:#f5f5f5;border:1px solid #ddd;border-radius:22px;padding:30px 26px;width:100%;max-width:400px;}
+.lt2{font-size:19px;font-weight:700;margin-bottom:20px;color:#111;}
+.li{width:100%;background:#ffffff;border:2px solid #ddd;border-radius:10px;padding:15px;color:#111;font-family:'Inter',sans-serif;font-size:16px;outline:none;margin-bottom:11px;transition:border-color .2s;-webkit-appearance:none;appearance:none;}
+.li:focus{border-color:#B8860B;}
+.li::placeholder{color:#999;}
+.lbtn{width:100%;background:#B8860B;color:#ffffff;border:none;padding:16px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;margin-top:4px;}
+.lerr{color:#cc0000;font-size:12px;margin-top:6px;display:none;}
+.ltog{text-align:center;margin-top:14px;font-size:13px;color:#666;}
+.ltog span{color:#B8860B;cursor:pointer;font-weight:600;}
+#AS{display:none;}
+.wrap{max-width:800px;margin:0 auto;padding:0 18px 95px;}
+.hdr{padding:28px 0 20px;border-bottom:1px solid var(--cb);margin-bottom:22px;}
+.htop{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.htag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:600;}
+.pbtn{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);overflow:hidden;cursor:pointer;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.pbtn img{width:100%;height:100%;object-fit:cover;display:none;}
+h1.main{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,40px);font-weight:900;line-height:1.1;}
+h1.main span{background:linear-gradient(135deg,var(--gold),var(--gl));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.dbar{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
+.ddsp{font-size:13px;color:var(--muted);}
+.sbdg{background:linear-gradient(135deg,var(--gold),var(--gl));color:#080B14;font-size:11px;font-weight:700;padding:5px 13px;border-radius:20px;}
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:20px;}
+.scard{background:var(--bg2);border:1px solid var(--cb);border-radius:14px;padding:14px;text-align:center;}
+.sv{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--gold);}
+.sl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1px;}
+.prog{background:var(--bg2);border:1px solid var(--cb);border-radius:16px;padding:18px;margin-bottom:20px;}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.pl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:500;}
+.pp{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);}
+.pb{height:7px;background:var(--bg4);border-radius:10px;overflow:hidden;}
+.pf{height:100%;background:linear-gradient(90deg,var(--gold),var(--gl));border-radius:10px;transition:width .6s ease;}
+.pm{margin-top:9px;font-size:12px;color:var(--muted);font-style:italic;}
+.tabs{display:flex;gap:7px;margin-bottom:20px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:8px 16px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--cb);background:var(--bg2);color:var(--muted);transition:all .2s;white-space:nowrap;}
+.tab.active{background:linear-gradient(135deg,var(--gold),var(--gl));color:#080B14;border-color:var(--gold);}
+.tab:hover:not(.active){border-color:var(--gold);color:var(--tx);}
+.sec{display:none;}
+.sec.active{display:block;animation:fup .3s ease forwards;}
+@keyframes fup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.stitle{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:5px;}
+.ssub{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;}
+.gt{background:linear-gradient(135deg,var(--gold),var(--gl));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.bt{background:linear-gradient(135deg,var(--blue),#7BA3FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.grt{background:linear-gradient(135deg,var(--green),#58D68D);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.pt{background:linear-gradient(135deg,var(--purple),#BB8FCE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.tt2{background:linear-gradient(135deg,var(--teal),#48C9B0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ot{background:linear-gradient(135deg,var(--orange),#F0A500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.pkt{background:linear-gradient(135deg,var(--pink),#FF6BB5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.card{background:var(--bg2);border:1px solid var(--cb);border-radius:16px;padding:18px 20px;margin-bottom:11px;transition:all .25s;}
+.card.gl{border-left:3px solid var(--gold);}
+.card.gr{border-left:3px solid var(--green);}
+.card.bl{border-left:3px solid var(--blue);}
+.card.rl{border-left:3px solid var(--red);}
+.card.pl{border-left:3px solid var(--purple);}
+.card.tl{border-left:3px solid var(--teal);}
+.card.ol{border-left:3px solid var(--orange);}
+.card.pkl{border-left:3px solid var(--pink);}
+.tc{background:var(--bg2);border:1px solid var(--cb);border-radius:13px;padding:15px 17px;margin-bottom:9px;cursor:pointer;transition:all .2s;position:relative;}
+.tc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:var(--bg4);}
+.tc:hover{border-color:rgba(212,168,67,0.3);}
+.tc.done{opacity:.55;border-color:var(--green);}
+.tc.done::before{background:var(--green);}
+.tt{display:flex;align-items:flex-start;gap:12px;}
+.ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--bg4);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px;}
+.tc.done .ck{background:var(--green);border-color:var(--green);}
+.ck svg{display:none;}
+.tc.done .ck svg{display:block;}
+.tco{flex:1;}
+.tl2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:3px;}
+.tn{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:2px;line-height:1.3;}
+.tc.done .tn{text-decoration:line-through;color:var(--muted);}
+.td{font-size:12px;color:var(--muted);line-height:1.6;margin-top:3px;}
+.jc{background:var(--bg2);border:1px solid var(--cb);border-radius:14px;padding:18px;margin-bottom:12px;}
+.jl2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:5px;}
+.jq{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:9px;line-height:1.4;}
+.jta{width:100%;background:var(--bg3);border:1px solid var(--cb);border-radius:9px;padding:12px;color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;line-height:1.7;resize:none;min-height:80px;outline:none;transition:border-color .2s;}
+.jta:focus{border-color:var(--gold);}
+.jta::placeholder{color:var(--muted2);}
+.ec{background:var(--bg2);border:1px solid var(--cb);border-radius:16px;padding:18px;margin-bottom:11px;cursor:pointer;transition:all .2s;}
+.ec:hover{border-color:rgba(212,168,67,0.3);}
+.etop{display:flex;align-items:center;gap:13px;margin-bottom:7px;}
+.eico{font-size:24px;width:48px;height:48px;background:var(--bg3);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.etitle{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--tx);}
+.esub{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-top:2px;}
+.eprev{font-size:13px;color:var(--muted);line-height:1.5;}
+.ebody{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--cb);}
+.ec.open .ebody{display:block;}
+.etog{font-size:11px;color:var(--muted);margin-top:9px;}
+.box{padding:11px 14px;border-radius:9px;font-size:13px;line-height:1.6;margin-bottom:8px;}
+.box.r{background:rgba(231,76,60,0.08);border-left:3px solid var(--red);color:#F1948A;}
+.box.g{background:rgba(46,204,113,0.08);border-left:3px solid var(--green);color:#82E0AA;}
+.box.b{background:rgba(74,124,255,0.08);border-left:3px solid var(--blue);color:#85C1E9;}
+.box.go{background:rgba(212,168,67,0.08);border-left:3px solid var(--gold);color:var(--gl);}
+.box.p{background:rgba(155,89,182,0.08);border-left:3px solid var(--purple);color:#C39BD3;}
+.box.t{background:rgba(26,188,156,0.08);border-left:3px solid var(--teal);color:#76D7C4;}
+.box.o{background:rgba(230,126,34,0.08);border-left:3px solid var(--orange);color:#F0B27A;}
+.mc{background:var(--bg2);border:1px solid var(--cb);border-radius:13px;padding:17px;margin-bottom:9px;}
+.mq{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px;line-height:1.4;}
+.mo{display:flex;gap:9px;}
+.mb2{flex:1;padding:11px;border-radius:9px;border:1px solid var(--cb);background:var(--bg3);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
+.mb2.sy{background:rgba(46,204,113,0.12);border-color:var(--green);color:#82E0AA;}
+.mb2.sn{background:rgba(231,76,60,0.12);border-color:var(--red);color:#F1948A;}
+.wg{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-bottom:18px;}
+.wd{aspect-ratio:1;border-radius:11px;background:var(--bg2);border:1px solid var(--cb);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all .2s;}
+.wd.done{background:rgba(212,168,67,0.12);border-color:var(--gold);}
+.wd.today{box-shadow:0 0 0 2px var(--gold);}
+.wdl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+.wdd{width:7px;height:7px;border-radius:50%;background:var(--bg4);}
+.wd.done .wdd{background:var(--gold);}
+.abox{background:linear-gradient(135deg,rgba(212,168,67,0.07),transparent);border:1px solid rgba(212,168,67,0.2);border-radius:16px;padding:26px;text-align:center;margin-bottom:20px;}
+.atx{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold);line-height:1.4;margin:10px 0 6px;}
+.asub{font-size:12px;color:var(--muted);}
+.abtn2{margin-top:12px;background:transparent;border:1px solid rgba(212,168,67,0.3);color:var(--gold);padding:7px 18px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:2px;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px;}
+.mst{background:var(--bg2);border:1px solid var(--cb);border-radius:13px;padding:14px;}
+.mst.full{grid-column:1/-1;}
+.msl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.msv{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--gold);}
+.msv.d{color:#F1948A;}
+.msv.s{color:#82E0AA;}
+.mss{font-size:11px;color:var(--muted);margin-top:2px;}
+.bbar{height:6px;background:var(--bg4);border-radius:10px;overflow:hidden;margin-top:8px;}
+.bf{height:100%;border-radius:10px;transition:width .5s ease;}
+.mic{background:var(--bg2);border:1px solid var(--cb);border-radius:14px;padding:18px;margin-bottom:12px;}
+.mit{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px;}
+.ir{display:flex;gap:7px;margin-bottom:8px;align-items:center;flex-wrap:wrap;}
+.mi{flex:1;min-width:100px;background:var(--bg3);border:1px solid var(--cb);border-radius:9px;padding:11px 13px;color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.mi:focus{border-color:var(--gold);}
+.mi::placeholder{color:var(--muted2);}
+.msel{background:var(--bg3);border:1px solid var(--cb);border-radius:9px;padding:11px 13px;color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;outline:none;cursor:pointer;}
+.abtn3{background:linear-gradient(135deg,var(--gold),var(--gl));color:#080B14;border:none;padding:11px 18px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.abtn3:hover{opacity:.9;}
+.ctabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;}
+.ctabs::-webkit-scrollbar{display:none;}
+.ctab{flex-shrink:0;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--cb);background:var(--bg2);color:var(--muted);transition:all .2s;}
+.ctab.active{background:var(--bg4);color:var(--tx);border-color:var(--muted2);}
+.ei{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--bg2);border:1px solid var(--cb);border-radius:11px;margin-bottom:7px;}
+.el3{display:flex;align-items:center;gap:10px;}
+.eco{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.cf{background:rgba(231,76,60,0.15);}
+.cc{background:rgba(212,168,67,0.15);}
+.cen{background:rgba(74,124,255,0.15);}
+.ctr{background:rgba(46,204,113,0.15);}
+.csv{background:rgba(155,89,182,0.15);}
+.cin{background:rgba(26,188,156,0.15);}
+.cot{background:rgba(149,165,166,0.15);}
+.ename{font-size:13px;font-weight:600;color:var(--tx);}
+.edate{font-size:11px;color:var(--muted);margin-top:1px;}
+.er3{display:flex;align-items:center;gap:7px;}
+.eamt{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;}
+.eamt.spending{color:#F1948A;}
+.eamt.saving{color:#82E0AA;}
+.eamt.investment{color:#7EB8E0;}
+.delbtn{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:14px;padding:3px;transition:color .2s;}
+.delbtn:hover{color:var(--red);}
+.hr{display:flex;align-items:center;justify-content:space-between;padding:14px 17px;background:var(--bg2);border:1px solid var(--cb);border-radius:13px;margin-bottom:8px;transition:all .2s;}
+.hl{display:flex;align-items:center;gap:12px;}
+.hico{font-size:20px;width:42px;height:42px;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hn{font-size:13px;font-weight:600;color:var(--tx);}
+.hd{font-size:11px;color:var(--muted);margin-top:2px;}
+.htog{width:44px;height:24px;border-radius:12px;background:var(--bg4);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.htog.on{background:var(--green);}
+.htog::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:white;transition:transform .2s;}
+.htog.on::after{transform:translateX(20px);}
+.cwrap{background:var(--bg2);border:1px solid var(--cb);border-radius:16px;overflow:hidden;margin-bottom:16px;}
+.cdisp{padding:22px 18px;background:var(--bg3);}
+.cexpr{font-size:12px;color:var(--muted);min-height:17px;text-align:right;margin-bottom:4px;}
+.cres{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--gold);text-align:right;word-break:break-all;}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bg4);}
+.cbtn{padding:18px 9px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:var(--bg2);color:var(--tx);transition:all .15s;text-align:center;}
+.cbtn:hover{background:var(--bg3);}
+.cbtn:active{transform:scale(.95);}
+.cbtn.op{color:var(--gold);}
+.cbtn.eq{background:linear-gradient(135deg,var(--gold),var(--gl));color:#080B14;}
+.cbtn.clr{color:var(--red);}
+.cbtn.s2{grid-column:span 2;}
+.tcard{background:linear-gradient(135deg,rgba(212,168,67,0.09),transparent);border:1px solid rgba(212,168,67,0.2);border-radius:16px;padding:26px;text-align:center;margin-bottom:20px;}
+.tdisp{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--gold);margin:12px 0;letter-spacing:-2px;}
+.tlbl{font-size:11px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;}
+.tbtns{display:flex;gap:9px;justify-content:center;}
+.tbtn2{padding:11px 26px;border-radius:30px;font-size:13px;font-weight:700;cursor:pointer;border:none;}
+.tbtn2.st{background:linear-gradient(135deg,var(--gold),var(--gl));color:#080B14;}
+.tbtn2.rs{background:transparent;border:1px solid var(--cb);color:var(--muted);}
+.phero{background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(74,124,255,0.04));border:1px solid rgba(212,168,67,0.2);border-radius:20px;padding:30px;text-align:center;margin-bottom:20px;}
+.pav{width:96px;height:96px;border-radius:50%;border:3px solid var(--gold);margin:0 auto 14px;overflow:hidden;background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:38px;}
+.pav img{width:100%;height:100%;object-fit:cover;display:none;}
+.pname{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--tx);margin-bottom:4px;}
+.ptitle{font-size:13px;color:var(--gold);font-weight:600;margin-bottom:18px;}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.pst{background:var(--bg2);border:1px solid var(--cb);border-radius:12px;padding:12px;text-align:center;}
+.psv{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);}
+.psl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:1px;}
+.pec{background:var(--bg2);border:1px solid var(--cb);border-radius:16px;padding:20px;margin-bottom:12px;}
+.pet{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:14px;}
+.pff{margin-bottom:12px;}
+.pff label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;}
+.pff input,.pff textarea{width:100%;background:var(--bg3);border:1px solid var(--cb);border-radius:9px;padding:11px 13px;color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.pff input:focus{border-color:var(--gold);}
+.phupbtn{width:100%;background:var(--bg3);border:2px dashed var(--cb);border-radius:9px;padding:14px;color:var(--muted);font-size:13px;cursor:pointer;text-align:center;display:block;}
+.phupbtn:hover{border-color:var(--gold);color:var(--gold);}
+.logoutbtn{width:100%;background:transparent;border:1px solid rgba(231,76,60,0.3);color:#F1948A;padding:12px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:7px;}
+.ri{display:flex;align-items:flex-start;gap:13px;padding:15px 17px;background:var(--bg2);border:1px solid var(--cb);border-radius:13px;margin-bottom:9px;}
+.rnum{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--gold);flex-shrink:0;width:28px;}
+.rtitle{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px;}
+.rdesc{font-size:12px;color:var(--muted);line-height:1.5;}
+.si{display:flex;align-items:center;gap:13px;padding:13px 16px;background:var(--bg2);border:1px solid var(--cb);border-radius:12px;margin-bottom:8px;}
+.stime{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--gold);min-width:65px;}
+.sact{font-size:13px;font-weight:600;color:var(--tx);}
+.snote{font-size:11px;color:var(--muted);margin-top:2px;}
+.sbadge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap;margin-left:auto;flex-shrink:0;}
+.sb1{background:rgba(230,126,34,0.15);color:#F0B27A;}
+.sb2{background:rgba(74,124,255,0.15);color:#85C1E9;}
+.sb3{background:rgba(46,204,113,0.15);color:#82E0AA;}
+.sb4{background:rgba(212,168,67,0.15);color:var(--gl);}
+.drc{background:var(--bg2);border:1px solid var(--cb);border-radius:13px;padding:16px;margin-bottom:9px;}
+.drb{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:7px;}
+.drb.av{background:rgba(231,76,60,0.15);color:#F1948A;}
+.drb.gd{background:rgba(46,204,113,0.15);color:#82E0AA;}
+.drn{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:4px;}
+.dri{font-size:12px;color:var(--muted);line-height:1.5;}
+.drcost{font-size:11px;color:var(--gold);margin-top:5px;font-weight:600;}
+.exc{background:var(--bg2);border:1px solid var(--cb);border-radius:13px;padding:16px;margin-bottom:9px;}
+.exd{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:5px;}
+.exn{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:9px;}
+.exl{list-style:none;}
+.exl li{font-size:12px;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--cb);display:flex;justify-content:space-between;align-items:center;}
+.exl li:last-child{border:none;}
+.exs{color:var(--gold);font-weight:600;font-size:11px;background:rgba(212,168,67,0.1);padding:2px 8px;border-radius:20px;}
+.ne{background:var(--bg2);border:1px solid var(--cb);border-radius:12px;padding:14px;margin-bottom:8px;}
+.ned{font-size:10px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase;}
+.net{font-size:13px;color:var(--tx);line-height:1.5;}
+.vbgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.vbcard{background:var(--bg2);border:1px solid var(--cb);border-radius:13px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;}
+.vbcard:hover{border-color:var(--gold);}
+.vbcard.set{border-color:rgba(212,168,67,0.4);background:rgba(212,168,67,0.04);}
+.vbico{font-size:28px;}
+.vblbl{font-size:13px;font-weight:600;color:var(--tx);}
+.vbval{font-size:12px;color:var(--muted);}
+.moodgrid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.mbtn{padding:12px 15px;border-radius:10px;border:1px solid var(--cb);background:var(--bg2);cursor:pointer;font-size:22px;transition:all .2s;}
+.mbtn:hover{transform:scale(1.1);}
+.mbtn.sel{background:var(--bg3);border-color:var(--gold);transform:scale(1.1);}
+.wi{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:var(--bg2);border:1px solid var(--cb);border-radius:12px;margin-bottom:8px;}
+.wstar{font-size:18px;flex-shrink:0;}
+.wtxt{font-size:13px;color:var(--tx);line-height:1.5;}
+.wdate{font-size:11px;color:var(--muted);margin-top:2px;}
+.betbox{background:linear-gradient(135deg,rgba(46,204,113,0.09),transparent);border:1px solid rgba(46,204,113,0.2);border-radius:16px;padding:26px;text-align:center;margin-bottom:18px;}
+.betamt{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:var(--green);margin:10px 0;}
+.betlbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;}
+.vocbox{background:linear-gradient(135deg,rgba(74,124,255,0.08),transparent);border:1px solid rgba(74,124,255,0.2);border-radius:16px;padding:26px;text-align:center;margin-bottom:18px;}
+.vocword{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:#7BA3FF;margin-bottom:5px;}
+.voctype{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
+.vocdef{font-size:14px;color:var(--tx);line-height:1.6;margin-bottom:10px;}
+.vocex{font-size:13px;color:var(--muted);font-style:italic;padding:10px 13px;background:var(--bg3);border-radius:9px;}
+.gc{background:var(--bg2);border:1px solid var(--cb);border-radius:14px;padding:18px;margin-bottom:10px;}
+.gh{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.gtitle{font-size:15px;font-weight:700;color:var(--tx);}
+.gbadge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;}
+.month{background:rgba(74,124,255,0.15);color:#85C1E9;}
+.sixmonth{background:rgba(155,89,182,0.15);color:#C39BD3;}
+.year{background:rgba(212,168,67,0.15);color:var(--gl);}
+.gprog{height:7px;background:var(--bg4);border-radius:10px;overflow:hidden;margin-bottom:6px;}
+.gpf{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--blue),var(--gold));transition:width .5s ease;}
+.confbox{background:linear-gradient(135deg,rgba(155,89,182,0.08),transparent);border:1px solid rgba(155,89,182,0.2);border-radius:16px;padding:22px;margin-bottom:16px;}
+.dvd{height:1px;background:var(--cb);margin:20px 0;}
+.sh{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:13px;margin-top:4px;}
+.empty{text-align:center;padding:24px;color:var(--muted);font-size:13px;}
+.empty div{font-size:26px;margin-bottom:6px;}
+.clrbtn{background:transparent;border:1px solid rgba(231,76,60,0.3);color:#F1948A;padding:6px 13px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;}
+.toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--bg3);border:1px solid var(--gold);color:var(--tx);padding:11px 22px;border-radius:30px;font-size:13px;font-weight:500;z-index:9998;transition:transform .3s ease;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,11,20,.97);backdrop-filter:blur(22px);border-top:1px solid var(--cb);display:none;z-index:100;}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 0 11px;cursor:pointer;gap:3px;}
+.bni.active .bnl{color:var(--gold);}
+.bnico{font-size:18px;}
+.bnl{font-size:9px;color:var(--muted);font-weight:500;}
+input[type=file]{display:none;}
+.wf{width:100%;}
+@media(max-width:480px){
+  .srow{grid-template-columns:1fr 1fr;}
+  .mgrid{grid-template-columns:1fr;}
+  .vbgrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="LS">
+  <div class="ll">IVAN'S LIFE OS</div>
+  <div class="ls">Your Complete Personal Development Platform</div>
+  <div class="lc">
+    <div class="lt2" id="ltitle">Welcome Back, Ivan 👋</div>
+    <input class="li" type="text" id="lname" placeholder="Full Name" autocomplete="name" style="display:none">
+    <input class="li" type="email" id="lemail" placeholder="Email address" autocomplete="email" inputmode="email">
+    <input class="li" type="password" id="lpass" placeholder="Password" autocomplete="current-password">
+    <div class="lerr" id="lerr"></div>
+    <button class="lbtn" onclick="doLogin()">Enter My System →</button>
+    <div class="ltog" id="ltog">New here? <span onclick="toggleMode()">Create account</span></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="AS">
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <div class="hdr">
+      <div class="htop">
+        <div class="htag">Life OS · TUGUMISIRIZA IVAN</div>
+        <div class="pbtn" id="hdrbtn" onclick="swNav(document.querySelector('.bni:last-child'),'profile')">
+          <img id="hdrimg" src="" alt="">
+          <span id="hdrico">👤</span>
+        </div>
+      </div>
+      <h1 class="main">Build The Man.<br><span>Own The Future.</span></h1>
+      <div class="dbar">
+        <div class="ddsp" id="dateDisp"></div>
+        <div class="sbdg" id="strBadge">🔥 Day 1</div>
+      </div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="srow">
+      <div class="scard"><div class="sv" id="stStr">1</div><div class="sl">Day Streak</div></div>
+      <div class="scard"><div class="sv" id="stTasks">0</div><div class="sl">Tasks Done</div></div>
+      <div class="scard"><div class="sv" id="stSaved">0K</div><div class="sl">UGX Saved</div></div>
+      <div class="scard"><div class="sv" id="stBet">0</div><div class="sl">Bet-Free Days</div></div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="prog">
+      <div class="ph">
+        <div class="pl">Today Progress</div>
+        <div class="pp" id="progPct">0%</div>
+      </div>
+      <div class="pb"><div class="pf" id="progFill" style="width:0%"></div></div>
+      <div class="pm" id="progMsg">Begin your day. Every task is a vote for who you are becoming.</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active" onclick="sw('morning',this)">🌅 Morning</div>
+      <div class="tab" onclick="sw('schedule',this)">⏰ Schedule</div>
+      <div class="tab" onclick="sw('evening',this)">🌙 Evening</div>
+      <div class="tab" onclick="sw('goals',this)">🎯 Goals</div>
+      <div class="tab" onclick="sw('mood',this)">😊 Mood</div>
+      <div class="tab" onclick="sw('wins',this)">🏆 Wins</div>
+      <div class="tab" onclick="sw('notebook',this)">📓 Notes</div>
+      <div class="tab" onclick="sw('vision',this)">⭐ Vision</div>
+      <div class="tab" onclick="sw('money',this)">💰 Money</div>
+      <div class="tab" onclick="sw('habits',this)">✅ Habits</div>
+      <div class="tab" onclick="sw('reading',this)">📖 Reading</div>
+      <div class="tab" onclick="sw('exercise',this)">💪 Exercise</div>
+      <div class="tab" onclick="sw('sleep',this)">😴 Sleep</div>
+      <div class="tab" onclick="sw('betting',this)">🚫 Anti-Betting</div>
+      <div class="tab" onclick="sw('confession',this)">🔒 Confession</div>
+      <div class="tab" onclick="sw('people',this)">👥 People</div>
+      <div class="tab" onclick="sw('books',this)">📚 Books</div>
+      <div class="tab" onclick="sw('skills',this)">🛠 Skills</div>
+      <div class="tab" onclick="sw('freelance',this)">💼 Freelance</div>
+      <div class="tab" onclick="sw('graphics',this)">🎨 Graphics</div>
+      <div class="tab" onclick="sw('youtube',this)">▶️ AI Video</div>
+      <div class="tab" onclick="sw('english',this)">🗣 English</div>
+      <div class="tab" onclick="sw('grooming',this)">✨ Grooming</div>
+      <div class="tab" onclick="sw('drinks',this)">🥤 Drinks</div>
+      <div class="tab" onclick="sw('mirror',this)">🪞 Mirror</div>
+      <div class="tab" onclick="sw('rules',this)">📜 Rules</div>
+      <div class="tab" onclick="sw('laws',this)">⚡ Laws</div>
+      <div class="tab" onclick="sw('girls',this)">❤️ Relationships</div>
+      <div class="tab" onclick="sw('calc',this)">🔢 Calculator</div>
+      <div class="tab" onclick="sw('profile',this)">👤 Profile</div>
+    </div>
+
+    <!-- MORNING SECTION -->
+    <div class="sec active" id="sec-morning">
+      <div class="stitle gt">Morning Routine</div>
+      <div class="ssub">Your morning decides your day. Do these every day without negotiation.</div>
+      <div class="wg" id="wgrid"></div>
+      <div class="abox">
+        <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Daily Affirmation</div>
+        <div class="atx" id="aff"></div>
+        <button class="abtn2" onclick="nextAff()">Next Affirmation</button>
+      </div>
+      <div id="taskList"></div>
+    </div>
+
+    <!-- SCHEDULE SECTION -->
+    <div class="sec" id="sec-schedule">
+      <div class="stitle gt">Daily Schedule</div>
+      <div class="ssub">Your time is your most valuable asset. Guard it like money.</div>
+      <div class="si"><div class="stime">5:00 AM</div><div><div class="sact">Wake Up</div><div class="snote">No snooze. First decision of the day.</div></div><div class="sbadge sb1">Foundation</div></div>
+      <div class="si"><div class="stime">5:05 AM</div><div><div class="sact">Lemon Water + Face Wash</div><div class="snote">Activate your body. Look fresh immediately.</div></div><div class="sbadge sb3">Health</div></div>
+      <div class="si"><div class="stime">5:15 AM</div><div><div class="sact">Exercise — 20 Minutes</div><div class="snote">Bodyweight only. Builds discipline that transfers everywhere.</div></div><div class="sbadge sb1">Body</div></div>
+      <div class="si"><div class="stime">5:40 AM</div><div><div class="sact">Cold Shower</div><div class="snote">Trains mental toughness. Clears skin. Kills body odor.</div></div><div class="sbadge sb2">Discipline</div></div>
+      <div class="si"><div class="stime">6:00 AM</div><div><div class="sact">Journal + Affirmations</div><div class="snote">Write what you are building. Remind yourself why.</div></div><div class="sbadge sb4">Mind</div></div>
+      <div class="si"><div class="stime">6:20 AM</div><div><div class="sact">Read 1 Hour</div><div class="snote">Before social media. Feed your brain first.</div></div><div class="sbadge sb4">Growth</div></div>
+      <div class="si"><div class="stime">7:30 AM</div><div><div class="sact">Breakfast + Plan Day</div><div class="snote">Eat. Write your 3 must-do tasks for today.</div></div><div class="sbadge sb3">Fuel</div></div>
+      <div class="si"><div class="stime">8:00 AM</div><div><div class="sact">University / Deep Work</div><div class="snote">Phone on silent. No social media until lunch.</div></div><div class="sbadge sb2">Focus</div></div>
+      <div class="si"><div class="stime">1:00 PM</div><div><div class="sact">Lunch + Short Walk</div><div class="snote">Eat clean. Move your body. Reset your mind.</div></div><div class="sbadge sb3">Rest</div></div>
+      <div class="si"><div class="stime">2:00 PM</div><div><div class="sact">Read 1 Hour</div><div class="snote">Second reading session. Use SQ3R method.</div></div><div class="sbadge sb4">Growth</div></div>
+      <div class="si"><div class="stime">3:00 PM</div><div><div class="sact">Freelance Work / Skills</div><div class="snote">Build your income skills. Graphic design. AI tools. Content.</div></div><div class="sbadge sb1">Income</div></div>
+      <div class="si"><div class="stime">6:00 PM</div><div><div class="sact">Social Time Budget — 1 Hour Max</div><div class="snote">Friends, family. Then back to work.</div></div><div class="sbadge sb3">Balance</div></div>
+      <div class="si"><div class="stime">7:00 PM</div><div><div class="sact">Read 1 Hour</div><div class="snote">Evening reading session. Before phone use.</div></div><div class="sbadge sb4">Growth</div></div>
+      <div class="si"><div class="stime">8:00 PM</div><div><div class="sact">Evening Journal</div><div class="snote">What did I do today? What will I do better tomorrow?</div></div><div class="sbadge sb4">Reflect</div></div>
+      <div class="si"><div class="stime">9:00 PM</div><div><div class="sact">Skin Care + Hygiene</div><div class="snote">Face wash. Moisturizer. Deodorant. Brush teeth.</div></div><div class="sbadge sb3">Grooming</div></div>
+      <div class="si"><div class="stime">9:30 PM</div><div><div class="sact">No Phone Wind Down</div><div class="snote">Read. Pray. Plan tomorrow on paper.</div></div><div class="sbadge sb2">Sleep Prep</div></div>
+      <div class="si"><div class="stime">10:00 PM</div><div><div class="sact">Sleep</div><div class="snote">7 hours minimum. Sleep is when you grow.</div></div><div class="sbadge sb3">Recovery</div></div>
+    </div>
+
+    <!-- EVENING SECTION -->
+    <div class="sec" id="sec-evening">
+      <div class="stitle bt">Evening Journal</div>
+      <div class="ssub">End your day with intention. Reflect. Plan. Improve.</div>
+      <div id="journalList"></div>
+    </div>
+
+    <!-- GOALS SECTION -->
+    <div class="sec" id="sec-goals">
+      <div class="stitle gt">My Goals</div>
+      <div class="ssub">A goal without a deadline is a dream. Write them down and track them.</div>
+      <div class="mic">
+        <div class="mit">Add New Goal</div>
+        <div class="ir">
+          <input class="mi" type="text" id="goalIn" placeholder="What do you want to achieve?">
+          <select class="msel" id="goalType">
+            <option value="month">1 Month</option>
+            <option value="sixmonth">6 Months</option>
+            <option value="year">1 Year</option>
+          </select>
+        </div>
+        <button class="abtn3 wf" onclick="addGoal()">Add Goal</button>
+      </div>
+      <div id="goalList"></div>
+    </div>
+
+    <!-- MOOD SECTION -->
+    <div class="sec" id="sec-mood">
+      <div class="stitle pkt">Mood Tracker</div>
+      <div class="ssub">Track your emotional patterns. Awareness is the first step to control.</div>
+      <div class="moodgrid">
+        <button class="mbtn" onclick="selMoodFn(this,'😊','Happy')">😊</button>
+        <button class="mbtn" onclick="selMoodFn(this,'💪','Motivated')">💪</button>
+        <button class="mbtn" onclick="selMoodFn(this,'😐','Neutral')">😐</button>
+        <button class="mbtn" onclick="selMoodFn(this,'😔','Down')">😔</button>
+        <button class="mbtn" onclick="selMoodFn(this,'😤','Frustrated')">😤</button>
+        <button class="mbtn" onclick="selMoodFn(this,'😴','Tired')">😴</button>
+        <button class="mbtn" onclick="selMoodFn(this,'🔥','On Fire')">🔥</button>
+        <button class="mbtn" onclick="selMoodFn(this,'😰','Anxious')">😰</button>
+      </div>
+      <div class="mic">
+        <textarea class="jta" id="moodNote" placeholder="What is going on today? What caused this mood?" rows="3"></textarea>
+        <button class="abtn3 wf" style="margin-top:8px" onclick="saveMood()">Log Mood</button>
+      </div>
+      <div class="sh">Mood History</div>
+      <div id="moodList"></div>
+    </div>
+
+    <!-- WINS SECTION -->
+    <div class="sec" id="sec-wins">
+      <div class="stitle gt">Weekly Wins</div>
+      <div class="ssub">Document every win, big or small. Evidence you are moving forward.</div>
+      <div class="mic">
+        <textarea class="jta" id="winIn" placeholder="What did you win today? What did you accomplish?" rows="3"></textarea>
+        <button class="abtn3 wf" style="margin-top:8px" onclick="addWin()">Log Win</button>
+      </div>
+      <div id="winList"></div>
+    </div>
+
+    <!-- NOTEBOOK SECTION -->
+    <div class="sec" id="sec-notebook">
+      <div class="stitle bt">Notebook</div>
+      <div class="ssub">Your personal space to think, plan, and capture ideas.</div>
+      <div class="mic">
+        <textarea class="jta" id="noteIn" placeholder="Write anything — ideas, plans, thoughts, observations..." rows="4"></textarea>
+        <button class="abtn3 wf" style="margin-top:8px" onclick="addNote()">Save Note</button>
+      </div>
+      <div id="noteList"></div>
+    </div>
+
+    <!-- VISION SECTION -->
+    <div class="sec" id="sec-vision">
+      <div class="stitle gt">Vision Board</div>
+      <div class="ssub">Define clearly who you are becoming and what you are building.</div>
+      <div class="vbgrid" id="visionGrid"></div>
+    </div>
+
+    <!-- MONEY SECTION -->
+    <div class="sec" id="sec-money">
+      <div class="stitle gt">Money Tracker</div>
+      <div class="ssub">Track every shilling. What gets measured gets managed.</div>
+      <div class="mgrid">
+        <div class="mst"><div class="msl">Budget</div><div class="msv" id="budgetDisp">0</div><div class="mss">UGX this month</div></div>
+        <div class="mst"><div class="msl">Spent</div><div class="msv d" id="spentDisp">0</div><div class="mss">UGX total</div><div class="bbar"><div class="bf" id="spentBar" style="width:0%;background:var(--red)"></div></div></div>
+        <div class="mst"><div class="msl">Saved</div><div class="msv s" id="savedDisp">0</div><div class="mss">UGX saved</div></div>
+        <div class="mst"><div class="msl">Remaining</div><div class="msv" id="remDisp">0</div><div class="mss">UGX left</div></div>
+      </div>
+      <div class="mic">
+        <div class="mit">Set Monthly Budget</div>
+        <div class="ir">
+          <input class="mi" type="number" id="budIn" placeholder="Monthly budget (UGX)">
+          <button class="abtn3" onclick="setBudget()">Set</button>
+        </div>
+      </div>
+      <div class="mic">
+        <div class="mit">Add Transaction</div>
+        <div class="ir">
+          <input class="mi" type="text" id="expName" placeholder="Description">
+          <input class="mi" type="number" id="expAmt" placeholder="Amount (UGX)">
+        </div>
+        <div class="ir">
+          <select class="msel wf" id="expCat">
+            <option value="food">🍽 Food</option>
+            <option value="transport">🚌 Transport</option>
+            <option value="education">📚 Education</option>
+            <option value="saving">💰 Saving</option>
+            <option value="investment">📈 Investment</option>
+            <option value="other">📦 Other</option>
+          </select>
+          <select class="msel" id="expType">
+            <option value="spending">Spending</option>
+            <option value="saving">Saving</option>
+            <option value="investment">Investment</option>
+          </select>
+        </div>
+        <button class="abtn3 wf" style="margin-top:8px" onclick="addExp()">Add Transaction</button>
+      </div>
+      <div class="ctabs">
+        <div class="ctab active" onclick="filtExp('all',this)">All</div>
+        <div class="ctab" onclick="filtExp('spending',this)">Spending</div>
+        <div class="ctab" onclick="filtExp('saving',this)">Saving</div>
+        <div class="ctab" onclick="filtExp('investment',this)">Investment</div>
+      </div>
+      <div id="expList"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:5px">
+        <button class="clrbtn" onclick="clearExp()">Clear All</button>
+      </div>
+    </div>
+
+    <!-- READING SECTION -->
+    <div class="sec" id="sec-reading">
+      <div class="stitle pt">Reading Routine</div>
+      <div class="ssub">3 hours daily — 1 hour morning, 1 afternoon, 1 evening. Never straight through.</div>
+      <div class="tcard">
+        <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Session Timer</div>
+        <div class="tdisp" id="timerDisp">60:00</div>
+        <div class="tlbl">1 Hour Reading Session</div>
+        <div class="tbtns">
+          <button class="tbtn2 st" onclick="startTimer()">▶ Start Reading</button>
+          <button class="tbtn2 rs" onclick="resetTimer()">■ Reset</button>
+        </div>
+        <div style="margin-top:11px;font-size:13px;color:var(--muted)">Sessions today: <strong id="sessCount" style="color:var(--gold)">0</strong> / 3</div>
+      </div>
+      <div class="ec" onclick="togE(this)">
+        <div class="etop"><div class="eico">🧠</div><div><div class="etitle">The SQ3R Method</div><div class="esub">Best Reading Technique</div></div></div>
+        <div class="eprev">Survey, Question, Read, Recite, Review. Used by top university students worldwide...</div>
+        <div class="ebody">
+          <div class="box b">S — Survey: Skim all headings in 2 minutes before reading. Get the big picture first.</div>
+          <div class="box b">Q — Question: Turn each heading into a question. Now you read to find an answer.</div>
+          <div class="box b">R — Read: Read actively to answer your questions. Notes in your own words only.</div>
+          <div class="box b">R — Recite: Close the book and explain it out loud after each section.</div>
+          <div class="box b">R — Review: Write 3 key points at end of each session. Review before the next session.</div>
+        </div>
+        <div class="etog">Tap to expand →</div>
+      </div>
+      <div class="tc" onclick="tog(this)" data-id="r1"><div class="tt"><div class="ck"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="tco"><div class="tl2">Morning Session</div><div class="tn">Read 1 Hour Before 10am</div><div class="td">After exercise. Before social media. Use SQ3R.</div></div></div></div>
+      <div class="tc" onclick="tog(this)" data-id="r2"><div class="tt"><div class="ck"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="tco"><div class="tl2">Afternoon Session</div><div class="tn">Read 1 Hour 2pm to 3pm</div><div class="td">Library or quiet space. Write 3 key notes after.</div></div></div></div>
+      <div class="tc" onclick="tog(this)" data-id="r3"><div class="tt"><div class="ck"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="tco"><div class="tl2">Evening Session</div><div class="tn">Read 1 Hour 7pm to 8pm</div><div class="td">Before the evening journal. Recite what you learned before closing the book.</div></div></div></div>
+    </div>
+
+    <!-- EXERCISE SECTION -->
+    <div class="sec" id="sec-exercise">
+      <div class="stitle" style="background:linear-gradient(135deg,#E74C3C,#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Exercise Routine</div>
+      <div class="ssub">Beginner bodyweight program. No gym. No equipment. 20 minutes daily.</div>
+      <div class="card rl" style="padding:14px;margin-bottom:16px;font-size:13px;"><strong style="color:var(--red)">The Rule:</strong> <span style="color:var(--muted)"> Never miss two days in a row. One missed day is human. Two is a pattern. Three is a choice to stay weak.</span></div>
+      <div class="exc"><div class="exd">Monday Wednesday Friday</div><div class="exn">Upper Body and Core</div><ul class="exl"><li>Push-ups <span class="exs">3x10</span></li><li>Chair Dips <span class="exs">3x10</span></li><li>Plank Hold <span class="exs">3x30 sec</span></li><li>Crunches <span class="exs">3x15</span></li><li>Mountain Climbers <span class="exs">3x20</span></li><li>Superman Hold <span class="exs">3x15</span></li></ul></div>
+      <div class="exc"><div class="exd">Tuesday Thursday</div><div class="exn">Lower Body and Legs</div><ul class="exl"><li>Squats <span class="exs">3x15</span></li><li>Reverse Lunges <span class="exs">3x10 each</span></li><li>Glute Bridges <span class="exs">3x15</span></li><li>Calf Raises <span class="exs">3x25</span></li><li>Wall Sit <span class="exs">3x30 sec</span></li><li>Jump Squats <span class="exs">2x10</span></li></ul></div>
+      <div class="exc"><div class="exd">Saturday Cardio</div><div class="exn">Endurance and Stamina</div><ul class="exl"><li>Brisk Walk or Light Jog <span class="exs">15 min</span></li><li>High Knees <span class="exs">3x30 sec</span></li><li>Jumping Jacks <span class="exs">3x40 sec</span></li><li>Burpees <span class="exs">3x5</span></li></ul></div>
+      <div class="exc"><div class="exd">Sunday Recovery</div><div class="exn">Rest Stretch and Breathe</div><ul class="exl"><li>Full body stretch <span class="exs">10 min</span></li><li>Deep breathing <span class="exs">5 min</span></li><li>Slow walk in fresh air <span class="exs">15 min</span></li></ul></div>
+      <div class="tc" onclick="tog(this)" data-id="ex1"><div class="tt"><div class="ck"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="tco"><div class="tl2">Exercise</div><div class="tn">Completed Today's Workout</div><div class="td">Mark this off. Every session builds discipline.</div></div></div></div>
+    </div>
+
+    <!-- HABITS SECTION -->
+    <div class="sec" id="sec-habits">
+      <div class="stitle tt2">Daily Habit Tracker</div>
+      <div class="ssub">Toggle each habit green when you complete it today. Consistency over perfection.</div>
+      <div id="habitList"></div>
+    </div>
+
+    <!-- DRINKS SECTION -->
+    <div class="sec" id="sec-drinks">
+      <div class="stitle tt2">Drinks Guide</div>
+      <div class="ssub">What you drink affects your thinking, energy, skin, and body odor every single day.</div>
+      <div class="drc"><div class="drb av">Avoid Completely</div><div class="drn">Energy Drinks — Red Bull, Monster, Sting, Predator</div><div class="dri">High sugar and artificial caffeine causes anxiety, poor sleep, heart palpitations, skin rashes, and dependency. The crash is 3x worse than the boost.</div><div class="drcost">5,000 UGX per day = 150,000 UGX per month = 5 months of savings wasted</div></div>
+      <div class="drc"><div class="drb av">Reduce</div><div class="drn">Sodas and Sugary Drinks</div><div class="dri">Blood sugar spikes cause fatigue, poor concentration, weight gain.</div></div>
+      <div class="drc"><div class="drb gd">Best First Every Morning</div><div class="drn">Warm Lemon Water</div><div class="dri">Half a lemon in warm water before food. Boosts immunity, cleanses digestion, improves skin, prevents rashes.</div><div class="drcost">Under 300 UGX per day. The cheapest health upgrade available.</div></div>
+      <div class="drc"><div class="drb gd">Best For Focus</div><div class="drn">Black Tea — Low Sugar</div><div class="dri">Calm sustained focus for 3-4 hours with zero crash. Antioxidants protect brain cells.</div><div class="drcost">200-400 UGX per cup.</div></div>
+      <div class="drc"><div class="drb gd">Excellent Skin and Energy</div><div class="drn">Fresh Passion Fruit or Pineapple Juice — No Added Sugar</div><div class="dri">Natural energy, Vitamin C clears skin and prevents rashes, boosts immunity. Make it yourself.</div><div class="drcost">1,000-2,000 UGX per glass homemade.</div></div>
+      <div class="drc"><div class="drb gd">Essential Foundation</div><div class="drn">Plain Water — 8 Glasses Daily</div><div class="dri">Most tiredness and bad mood is dehydration. Water flushes toxins causing body odor and skin rashes.</div><div class="drcost">Free. Results: priceless.</div></div>
+      <div class="drc"><div class="drb gd">Good Immune and Skin</div><div class="drn">Ginger Tea with Honey</div><div class="dri">Fresh ginger plus hot water plus honey. Anti-inflammatory, kills bacteria causing odor and rashes.</div><div class="drcost">Under 800 UGX per cup.</div></div>
+    </div>
+
+    <!-- BETTING SECTION -->
+    <div class="sec" id="sec-betting">
+      <div class="stitle grt">Anti-Betting System</div>
+      <div class="ssub">Betting is a tax on people who do not understand mathematics. Every shilling you save is real money building your future.</div>
+      <div class="betbox">
+        <div class="betlbl">TOTAL MONEY SAVED BY NOT BETTING</div>
+        <div class="betamt" id="betSaved">0 UGX</div>
+        <div style="font-size:13px;color:var(--tx);margin-top:6px">🎯 <span id="betDays">0</span> bet-free days in a row</div>
+        <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <input class="mi" type="number" id="betAmt" placeholder="Amount you would have bet" style="max-width:200px">
+          <button class="abtn3" onclick="addBetSaving()">Log Saving</button>
+        </div>
+      </div>
+      <div class="box r">The house always wins. Always. No exceptions. The math is designed so you lose.</div>
+      <div class="box g">Every 5,000 UGX you save instead of bet = 60,000 UGX per year = school fees, equipment, investment.</div>
+      <div class="box go">Your friends who bet are financing the betting company owner's lifestyle with their poverty.</div>
+      <div class="box b">Use this app: every time you feel like betting, log that amount here as a saving instead.</div>
+    </div>
+
+    <!-- CONFESSION SECTION -->
+    <div class="sec" id="sec-confession">
+      <div class="stitle pt">Confession Box</div>
+      <div class="ssub">Private space. What did you do wrong today? Admit it. Fix it. Move on.</div>
+      <div class="confbox">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:12px">This is private. No one sees this but you. Be completely honest.</div>
+        <textarea class="jta" id="confIn" placeholder="Confess something. A bad habit. A failure. Something you are ashamed of. Get it out." rows="4"></textarea>
+        <button class="abtn3 wf" style="margin-top:10px" onclick="saveConf()">Submit Confession</button>
+      </div>
+      <div class="sh">Past Confessions</div>
+      <div id="confList"></div>
+    </div>
+
+    <!-- PEOPLE TRACKER SECTION -->
+    <div class="sec" id="sec-people">
+      <div class="stitle bt">People Tracker</div>
+      <div class="ssub">Know who is in your life and what they represent. Not everyone deserves your energy.</div>
+      <div class="mic">
+        <div class="mit">Add Person</div>
+        <div class="ir">
+          <input class="mi" type="text" id="personName" placeholder="Name">
+          <input class="mi" type="text" id="personRole" placeholder="Role (friend, mentor, etc)">
+        </div>
+        <input class="mi wf" type="text" id="personNote" placeholder="What do they bring to your life?">
+        <button class="abtn3 wf" style="margin-top:8px" onclick="addPerson()">Add Person</button>
+      </div>
+      <div id="peopleList"></div>
+    </div>
+
+    <!-- SLEEP SECTION -->
+    <div class="sec" id="sec-sleep">
+      <div class="stitle tt2">Sleep Tracker</div>
+      <div class="ssub">Sleep is when you grow. Track it like a serious investment in yourself.</div>
+      <div class="mic">
+        <div class="mit">Log Sleep</div>
+        <div class="ir">
+          <input class="mi" type="time" id="sleepBed" placeholder="Bedtime">
+          <input class="mi" type="time" id="sleepWake" placeholder="Wake time">
+          <input class="mi" type="number" id="sleepQual" placeholder="Quality 1-10" min="1" max="10">
+        </div>
+        <button class="abtn3 wf" onclick="logSleep()">Log Sleep</button>
+      </div>
+      <div id="sleepList"></div>
+    </div>
+
+    <!-- CALCULATOR SECTION -->
+    <div class="sec" id="sec-calc">
+      <div class="stitle gt">Calculator</div>
+      <div class="ssub">Run your numbers. Budget calculations, savings goals, percentages.</div>
+      <div class="cwrap">
+        <div class="cdisp">
+          <div class="cexpr" id="cExpr"></div>
+          <div class="cres" id="cRes">0</div>
+        </div>
+        <div class="cgrid">
+          <button class="cbtn clr" onclick="cC()">C</button>
+          <button class="cbtn op" onclick="cSg()">+/-</button>
+          <button class="cbtn op" onclick="cPc()">%</button>
+          <button class="cbtn op" onclick="cOp('/')">÷</button>
+          <button class="cbtn" onclick="cN('7')">7</button>
+          <button class="cbtn" onclick="cN('8')">8</button>
+          <button class="cbtn" onclick="cN('9')">9</button>
+          <button class="cbtn op" onclick="cOp('*')">×</button>
+          <button class="cbtn" onclick="cN('4')">4</button>
+          <button class="cbtn" onclick="cN('5')">5</button>
+          <button class="cbtn" onclick="cN('6')">6</button>
+          <button class="cbtn op" onclick="cOp('-')">−</button>
+          <button class="cbtn" onclick="cN('1')">1</button>
+          <button class="cbtn" onclick="cN('2')">2</button>
+          <button class="cbtn" onclick="cN('3')">3</button>
+          <button class="cbtn op" onclick="cOp('+')">+</button>
+          <button class="cbtn s2" onclick="cN('0')">0</button>
+          <button class="cbtn" onclick="cDt()">.</button>
+          <button class="cbtn eq" onclick="cEq()">=</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKS SECTION -->
+    <div class="sec" id="sec-books">
+      <div class="stitle gt">Books to Read</div>
+      <div class="ssub">These books will change how you think about money, discipline, and life. Read them all.</div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">💰</div><div><div class="etitle">Rich Dad Poor Dad</div><div class="esub">Robert Kiyosaki</div></div></div><div class="eprev">The book that explains why your school never taught you about money...</div><div class="ebody"><div class="box go">Core lesson: The rich don't work for money — they make money work for them. Assets vs liabilities.</div><div class="box go">For you: Start thinking about how to create income streams, not just get a salary.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">⚛️</div><div><div class="etitle">Atomic Habits</div><div class="esub">James Clear</div></div></div><div class="eprev">The science of how small habits compound into massive change...</div><div class="ebody"><div class="box b">Core lesson: You do not rise to the level of your goals. You fall to the level of your systems.</div><div class="box b">For you: Build systems for studying, exercise, saving money. Not willpower — systems.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🧠</div><div><div class="etitle">Think and Grow Rich</div><div class="esub">Napoleon Hill</div></div></div><div class="eprev">Written after studying 500 of the most successful men of the 20th century...</div><div class="ebody"><div class="box p">Core lesson: Everything starts with a burning desire and a definite plan. Vague dreams produce vague results.</div><div class="box p">For you: Write down exactly what you want to achieve and by when.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🔥</div><div><div class="etitle">Can't Hurt Me</div><div class="esub">David Goggins</div></div></div><div class="eprev">A man who grew up in poverty and abuse and became a Navy SEAL...</div><div class="ebody"><div class="box r">Core lesson: Most people operate at 40% of their capacity. The other 60% is unlocked through suffering and discipline.</div><div class="box r">For you: When you want to quit — that is when the real work begins.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🏛️</div><div><div class="etitle">Meditations</div><div class="esub">Marcus Aurelius</div></div></div><div class="eprev">A Roman Emperor writing private notes to himself about discipline and purpose...</div><div class="ebody"><div class="box t">Core lesson: You have power over your mind, not outside events. Realize this and you will find strength.</div><div class="box t">For you: Stop reacting to things. Start responding with purpose.</div></div><div class="etog">Tap to expand →</div></div>
+    </div>
+
+    <!-- FREELANCE SECTION -->
+    <div class="sec" id="sec-freelance">
+      <div class="stitle ot">Freelance Path</div>
+      <div class="ssub">Your university education gives you knowledge. Freelancing gives you income and freedom.</div>
+      <div class="ri"><div class="rnum">1</div><div><div class="rtitle">Pick One Skill First</div><div class="rdesc">Graphic design, video editing, copywriting, social media management. Master ONE before adding more.</div></div></div>
+      <div class="ri"><div class="rnum">2</div><div><div class="rtitle">Build a Portfolio of 5 Samples</div><div class="rdesc">Nobody hires you without seeing work. Create 5 samples even if they are fake projects. Design a logo for a fake business. Edit a short video. Write a sample post.</div></div></div>
+      <div class="ri"><div class="rnum">3</div><div><div class="rtitle">Create Profiles on Fiverr and Upwork</div><div class="rdesc">These are global platforms. Your clients are NOT in Uganda. USD pays 3,700 UGX per dollar. A $10 job is 37,000 UGX.</div></div></div>
+      <div class="ri"><div class="rnum">4</div><div><div class="rtitle">Charge Low to Get First Reviews</div><div class="rdesc">Your first 3-5 jobs should be cheap. You are buying reviews, not making money yet. After 5 reviews, raise prices.</div></div></div>
+      <div class="ri"><div class="rnum">5</div><div><div class="rtitle">Reinvest First Earnings</div><div class="rdesc">Do not spend first earnings. Buy a better tool, a course, or better equipment. Invest in yourself first.</div></div></div>
+    </div>
+
+    <!-- GROOMING SECTION -->
+    <div class="sec" id="sec-grooming">
+      <div class="stitle gt">Grooming Standards</div>
+      <div class="ssub">How you look affects how people treat you and how you feel about yourself. Standards matter.</div>
+      <div class="box go" style="margin-bottom:14px">You don't need expensive products. You need consistency and the right basics.</div>
+      <div class="drc"><div class="drb gd">Daily Non-Negotiable</div><div class="drn">Face Wash — Morning and Night</div><div class="dri">Use a gentle cleanser. Prevents rashes, blackheads, and skin darkening. Invest 3,000-5,000 UGX in a basic face wash.</div></div>
+      <div class="drc"><div class="drb gd">After Bathing</div><div class="drn">Moisturizer</div><div class="dri">Vaseline or a basic lotion. Dry skin looks unhealthy. Moisturized skin looks confident. Apply while slightly damp.</div></div>
+      <div class="drc"><div class="drb gd">Every Morning</div><div class="drn">Deodorant</div><div class="dri">Non-negotiable. Body odor destroys first impressions and confidence. Shower + deodorant every single day.</div></div>
+      <div class="drc"><div class="drb gd">Twice Daily</div><div class="drn">Brush Teeth</div><div class="dri">Morning and before bed. Bad breath is a relationship and opportunity killer. No exceptions.</div></div>
+      <div class="drc"><div class="drb gd">Weekly</div><div class="drn">Haircut or Shape-Up</div><div class="dri">A clean haircut costs under 5,000 UGX and makes you look 3x more put-together. Worth every shilling.</div></div>
+      <div class="drc"><div class="drb gd">Clothes</div><div class="drn">Clean and Ironed</div><div class="dri">You don't need expensive clothes. You need clean, fitting, ironed clothes. This alone separates you from 70% of people.</div></div>
+    </div>
+
+    <!-- MIRROR SECTION -->
+    <div class="sec" id="sec-mirror">
+      <div class="stitle gt">Mirror Talk</div>
+      <div class="ssub">The most important conversation you have every day is with yourself. Make it powerful.</div>
+      <div class="abox">
+        <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Say This Out Loud</div>
+        <div class="atx" id="aff2" style="font-size:16px"></div>
+        <button class="abtn2" onclick="nextAff()">Next</button>
+      </div>
+      <div class="box go">Stand in front of the mirror every morning for 2 minutes. Look yourself in the eye. Say your affirmations out loud. This builds self-belief faster than any book.</div>
+      <div class="box b">Your subconscious mind cannot tell the difference between what is real and what is vividly imagined. Speak your future into existence every morning.</div>
+    </div>
+
+    <!-- RULES SECTION -->
+    <div class="sec" id="sec-rules">
+      <div class="stitle gt">Ivan's Rules</div>
+      <div class="ssub">These are the non-negotiable principles of the man you are becoming.</div>
+      <div class="ri"><div class="rnum">1</div><div><div class="rtitle">Save Before You Spend</div><div class="rdesc">When money comes in — save first. Even 1,000 UGX. The habit matters more than the amount right now.</div></div></div>
+      <div class="ri"><div class="rnum">2</div><div><div class="rtitle">No Betting. Ever.</div><div class="rdesc">Not for fun. Not once. Not a little. The moment you start, the addiction begins. Your money is for building, not gambling.</div></div></div>
+      <div class="ri"><div class="rnum">3</div><div><div class="rtitle">Read Every Day</div><div class="rdesc">People who don't read have no advantage over people who can't read. 1 hour minimum. Your competition is not reading.</div></div></div>
+      <div class="ri"><div class="rnum">4</div><div><div class="rtitle">Never Announce Your Plans</div><div class="rdesc">Don't post about what you are going to do. Post results only. The energy spent announcing could be spent doing.</div></div></div>
+      <div class="ri"><div class="rnum">5</div><div><div class="rtitle">Exercise Every Day</div><div class="rdesc">Your body is your first business. A healthy body produces a sharp mind. Discipline in fitness transfers to every area of life.</div></div></div>
+      <div class="ri"><div class="rnum">6</div><div><div class="rtitle">Sleep by 10pm</div><div class="rdesc">Night owls are not productive. They are avoiding tomorrow. Early sleep equals early rising equals ownership of your day.</div></div></div>
+      <div class="ri"><div class="rnum">7</div><div><div class="rtitle">Respect Your Parents</div><div class="rdesc">They are not your enemies. They are limited by what they know. Show them a better way through your results, not arguments.</div></div></div>
+      <div class="ri"><div class="rnum">8</div><div><div class="rtitle">Control Your Reactions</div><div class="rdesc">A man who can be provoked easily is a man who can be controlled easily. The pause before reaction is where power lives.</div></div></div>
+    </div>
+
+    <!-- SKILLS SECTION -->
+    <div class="sec" id="sec-skills">
+      <div class="stitle bt">Skills to Build</div>
+      <div class="ssub">These are the skills that pay in Uganda and globally. Pick one and go deep.</div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🎨</div><div><div class="etitle">Graphic Design</div><div class="esub">High Demand in Uganda</div></div></div><div class="eprev">Every business needs a logo, flyers, social media posts. You can charge 50,000-500,000 UGX per project...</div><div class="ebody"><div class="box go">Tools: Canva (free), Adobe Illustrator, Photoshop. Start with Canva — it's free and powerful.</div><div class="box go">Where to learn: YouTube. Search "Canva tutorial for beginners". Free. Complete.</div><div class="box go">First client: Church, school, local business, your own university department. Offer free first, then charge.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🎬</div><div><div class="etitle">Video Editing</div><div class="esub">Growing Fast in Uganda</div></div></div><div class="eprev">Short-form video is the fastest growing content format. Every creator needs an editor...</div><div class="ebody"><div class="box b">Tools: CapCut (free, mobile), DaVinci Resolve (free, PC). CapCut is enough to start.</div><div class="box b">Income: Edit YouTube videos, TikTok content, wedding videos, corporate videos.</div><div class="box b">Rate: Start at 20,000-50,000 UGX per video. Raise to 100,000+ after 5 good reviews.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🤖</div><div><div class="etitle">AI Tools Mastery</div><div class="esub">The Future is Now</div></div></div><div class="eprev">The people who master AI tools will outcompete everyone who doesn't. This is not optional...</div><div class="ebody"><div class="box p">Tools: ChatGPT, Claude, Midjourney, Canva AI. All have free tiers. Learn them all.</div><div class="box p">Skills: AI writing, AI image generation, AI video, AI automation. All high demand globally.</div><div class="box p">Income: Offer AI-assisted services. Create content faster. Solve problems cheaper. Charge normal rates, earn more per hour.</div></div><div class="etog">Tap to expand →</div></div>
+    </div>
+
+    <!-- GRAPHICS SECTION -->
+    <div class="sec" id="sec-graphics">
+      <div class="stitle gt">Graphic Design Path</div>
+      <div class="ssub">Step-by-step path from zero to earning with graphic design in Uganda.</div>
+      <div class="ri"><div class="rnum">1</div><div><div class="rtitle">Week 1-2: Learn Canva</div><div class="rdesc">Watch 5 YouTube tutorials. Create 3 fake logos, 3 social media posts, 2 flyers. Save everything to a portfolio folder.</div></div></div>
+      <div class="ri"><div class="rnum">2</div><div><div class="rtitle">Week 3-4: First Real Client</div><div class="rdesc">Approach a church, salon, school canteen, or university club. Offer one free design in exchange for a testimonial and referral.</div></div></div>
+      <div class="ri"><div class="rnum">3</div><div><div class="rtitle">Month 2: Build Portfolio Website</div><div class="rdesc">Use Carrd.co (free). 5 portfolio pieces. Short bio. WhatsApp contact. Share on your university WhatsApp groups.</div></div></div>
+      <div class="ri"><div class="rnum">4</div><div><div class="rtitle">Month 3: Charge Real Money</div><div class="rdesc">Logo design: 50,000-150,000 UGX. Social media pack: 80,000-200,000 UGX. Business card: 20,000-50,000 UGX.</div></div></div>
+      <div class="ri"><div class="rnum">5</div><div><div class="rtitle">Month 4-6: Go International on Fiverr</div><div class="rdesc">Create a Fiverr account. List your services. $10 logo = 37,000 UGX. $50 brand kit = 185,000 UGX. Scale from there.</div></div></div>
+    </div>
+
+    <!-- YOUTUBE SECTION -->
+    <div class="sec" id="sec-youtube">
+      <div class="stitle ot">AI Video Creation</div>
+      <div class="ssub">Create YouTube content using AI. No camera needed. No expensive equipment. Pure strategy.</div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">📹</div><div><div class="etitle">Faceless YouTube Channel</div><div class="esub">No Camera Required</div></div></div><div class="eprev">You can build a YouTube channel that earns money without ever showing your face...</div><div class="ebody"><div class="box go">Step 1: Pick a niche. Motivation, finance, African history, study tips, tech. Something you know.</div><div class="box go">Step 2: Write scripts using ChatGPT or Claude. 500-1000 words per video.</div><div class="box go">Step 3: Use ElevenLabs (free tier) for AI voiceover. Or record your own voice.</div><div class="box go">Step 4: Use Pexels or Pixabay for free stock video. Edit with CapCut.</div><div class="box go">Step 5: Upload consistently. 2 videos per week minimum for 6 months before judging results.</div></div><div class="etog">Tap to expand →</div></div>
+    </div>
+
+    <!-- ENGLISH SECTION -->
+    <div class="sec" id="sec-english">
+      <div class="stitle bt">English Mastery</div>
+      <div class="ssub">Strong English opens global opportunities. It is the language of international business and the internet.</div>
+      <div class="vocbox">
+        <div class="vocword" id="vocWord">Loading...</div>
+        <div class="voctype" id="vocType"></div>
+        <div class="vocdef" id="vocDef"></div>
+        <div class="vocex" id="vocEx"></div>
+      </div>
+      <div style="display:flex;gap:9px;margin-bottom:18px">
+        <button class="abtn3 wf" onclick="nextVocab()">Next Word →</button>
+      </div>
+      <div class="box b">Read English content daily. The BBC, CNN, or any English book. Passive exposure builds fluency faster than memorizing grammar rules.</div>
+      <div class="box go">When you learn a new word — use it in a sentence immediately. Say it out loud. Write it down. Use it in conversation today.</div>
+    </div>
+
+    <!-- LAWS SECTION -->
+    <div class="sec" id="sec-laws">
+      <div class="stitle pt">Laws of Power</div>
+      <div class="ssub">Understanding how the world actually works gives you an advantage over those who don't.</div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🎭</div><div><div class="etitle">Never Outshine the Master</div><div class="esub">Law 1</div></div></div><div class="eprev">Always make those above you feel comfortably superior...</div><div class="ebody"><div class="box p">In practice: When you are new — be excellent, but let your boss take credit. Work your way up first. Your time to shine comes after you have built trust and position.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🤫</div><div><div class="etitle">Conceal Your Intentions</div><div class="esub">Law 3</div></div></div><div class="eprev">Keep people off-balance and in the dark by never revealing your purpose...</div><div class="ebody"><div class="box p">In practice: Don't tell people your plans until they are done. Announcing goals early kills motivation and invites sabotage from jealous people.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">💬</div><div><div class="etitle">Always Say Less Than Necessary</div><div class="esub">Law 4</div></div></div><div class="eprev">When you are trying to impress people with words, the more you say the more common you appear...</div><div class="ebody"><div class="box p">In practice: Speak less. Listen more. Silence makes people uncomfortable — they fill it by revealing themselves. Use this.</div></div><div class="etog">Tap to expand →</div></div>
+      <div class="ec" onclick="togE(this)"><div class="etop"><div class="eico">🏆</div><div><div class="etitle">Win Through Actions, Not Argument</div><div class="esub">Law 9</div></div></div><div class="eprev">Any momentary triumph you think you have gained through argument is really a Pyrrhic victory...</div><div class="ebody"><div class="box p">In practice: Stop arguing with people. Just go and do the thing. Results shut down every argument permanently.</div></div><div class="etog">Tap to expand →</div></div>
+    </div>
+
+    <!-- GIRLS SECTION -->
+    <div class="sec" id="sec-girls">
+      <div class="stitle pkt">Relationships</div>
+      <div class="ssub">Build yourself first. The right relationship multiplies your progress. The wrong one destroys it.</div>
+      <div class="box go">A woman who is attracted to your discipline and ambition will support your growth. A woman who wants you to stop growing is a liability, not a partner.</div>
+      <div class="box b">At this stage of your life — you are building. A relationship is a responsibility. Only enter one if it makes you better, not distracted.</div>
+      <div class="box r">Warning signs: She distracts you from study. She spends your money. She doesn't respect your goals. She causes drama that costs you peace. Exit immediately.</div>
+      <div class="box g">What attracts quality women: Discipline. Cleanliness. Ambition. Emotional control. Purpose. You are building all of these. Keep going.</div>
+      <div class="box p">Your standard: You deserve someone who makes you better. Don't settle for less because of loneliness. Lonely and building is better than distracted and failing.</div>
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <div class="sec" id="sec-profile">
+      <div class="phero">
+        <label for="phu" style="cursor:pointer">
+          <div class="pav">
+            <img id="pPhoto" src="" alt="">
+            <span id="pIcon">📷</span>
+          </div>
+        </label>
+        <input type="file" id="phu" accept="image/*" onchange="upPhoto(event)">
+        <div class="pname" id="pNameDisp">TUGUMISIRIZA IVAN</div>
+        <div class="ptitle">University Student · Freelancer in Training · Building The Man</div>
+        <div class="pstats">
+          <div class="pst"><div class="psv" id="stStr2">1</div><div class="psl">Day Streak</div></div>
+          <div class="pst"><div class="psv" id="stTasks2">0</div><div class="psl">Tasks Done</div></div>
+          <div class="pst"><div class="psv" id="stSaved2">0K</div><div class="psl">UGX Saved</div></div>
+        </div>
+      </div>
+      <div class="pec">
+        <div class="pet">Edit Profile</div>
+        <div class="pff"><label>Full Name</label><input type="text" id="pnIn" value="TUGUMISIRIZA IVAN"></div>
+        <div class="pff"><label>University</label><input type="text" id="puIn" placeholder="Your university name"></div>
+        <div class="pff"><label>Course or Programme</label><input type="text" id="pcIn" placeholder="What you are studying"></div>
+        <div class="pff"><label>Your Life Purpose — one sentence</label><input type="text" id="ppIn" placeholder="Why you are doing all of this"></div>
+        <div class="pff"><label>Profile Photo</label><label for="phu" class="phupbtn">📷 Tap to upload your photo</label></div>
+        <button class="abtn3 wf" onclick="saveProf()" style="margin-top:6px">Save Profile</button>
+        <button class="logoutbtn" onclick="doLogout()">Log Out</button>
+      </div>
+    </div>
+
+  </div><!-- end .wrap -->
+</div><!-- end #AS -->
+
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav" style="display:none">
+  <div class="bni active" onclick="swNav(this,'morning')"><div class="bnico">🌅</div><div class="bnl">Morning</div></div>
+  <div class="bni" onclick="swNav(this,'schedule')"><div class="bnico">⏰</div><div class="bnl">Schedule</div></div>
+  <div class="bni" onclick="swNav(this,'money')"><div class="bnico">💰</div><div class="bnl">Money</div></div>
+  <div class="bni" onclick="swNav(this,'habits')"><div class="bnico">✅</div><div class="bnl">Habits</div></div>
+  <div class="bni" onclick="swNav(this,'books')"><div class="bnico">📖</div><div class="bnl">Books</div></div>
+  <div class="bni" onclick="swNav(this,'profile')"><div class="bnico">👤</div><div class="bnl">Profile</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const D={
+  tasks:JSON.parse(localStorage.getItem('iv_t')||'{}'),
+  journal:JSON.parse(localStorage.getItem('iv_j')||'{}'),
+  streak:parseInt(localStorage.getItem('iv_s')||'1'),
+  lastDate:localStorage.getItem('iv_ld')||'',
+  weekDays:JSON.parse(localStorage.getItem('iv_wd')||'[]'),
+  expenses:JSON.parse(localStorage.getItem('iv_ex')||'[]'),
+  budget:parseFloat(localStorage.getItem('iv_bud')||'0'),
+  habits:JSON.parse(localStorage.getItem('iv_h')||'{}'),
+  notes:JSON.parse(localStorage.getItem('iv_n')||'[]'),
+  sessions:parseInt(localStorage.getItem('iv_sess')||'0'),
+  photo:localStorage.getItem('iv_ph')||'',
+  profile:JSON.parse(localStorage.getItem('iv_prof')||'{"name":"TUGUMISIRIZA IVAN","uni":"","course":"","purpose":""}'),
+  users:JSON.parse(localStorage.getItem('iv_users')||'[]'),
+  loggedIn:localStorage.getItem('iv_li')==='true',
+  expFilt:'all',
+  goals:JSON.parse(localStorage.getItem('iv_goals')||'[]'),
+  wins:JSON.parse(localStorage.getItem('iv_wins')||'[]'),
+  moods:JSON.parse(localStorage.getItem('iv_moods')||'[]'),
+  confs:JSON.parse(localStorage.getItem('iv_confs')||'[]'),
+  people:JSON.parse(localStorage.getItem('iv_people')||'[]'),
+  sleeps:JSON.parse(localStorage.getItem('iv_sleeps')||'[]'),
+  vision:JSON.parse(localStorage.getItem('iv_vision')||'{}'),
+  betSaved:parseFloat(localStorage.getItem('iv_bet')||'0'),
+  betDays:parseInt(localStorage.getItem('iv_betdays')||'0'),
+  vocIdx:0,
+  selMoodEmoji:''
+};
+
+let regMode=false;
+function toggleMode(){
+  regMode=!regMode;
+  document.getElementById('ltitle').textContent=regMode?'Create Your Account':'Welcome Back, Ivan';
+  document.getElementById('lname').style.display=regMode?'block':'none';
+  document.getElementById('ltog').innerHTML=regMode?'Already have an account? <span onclick="toggleMode()">Login</span>':'New here? <span onclick="toggleMode()">Create account</span>';
+  document.getElementById('lerr').style.display='none';
+}
+
+function doLogin(){
+  const email=document.getElementById('lemail').value.trim();
+  const pass=document.getElementById('lpass').value.trim();
+  const err=document.getElementById('lerr');
+  if(!email||!pass){err.textContent='Please fill all fields.';err.style.display='block';return;}
+  if(regMode){
+    const name=document.getElementById('lname').value.trim();
+    if(!name){err.textContent='Enter your name.';err.style.display='block';return;}
+    if(D.users.find(u=>u.email===email)){err.textContent='Email already registered.';err.style.display='block';return;}
+    D.users.push({email,pass,name});
+    localStorage.setItem('iv_users',JSON.stringify(D.users));
+    D.profile.name=name;
+    localStorage.setItem('iv_prof',JSON.stringify(D.profile));
+    launchApp();
+  } else {
+    const u=D.users.find(u=>u.email===email&&u.pass===pass);
+    const def=(email==='ivan@gmail.com'&&pass==='ivan123');
+    if(u||def) launchApp();
+    else{err.textContent='Incorrect email or password.';err.style.display='block';}
+  }
+}
+
+function launchApp(){
+  D.loggedIn=true;localStorage.setItem('iv_li','true');
+  document.getElementById('LS').style.display='none';
+  document.getElementById('AS').style.display='block';
+  document.getElementById('bnav').style.display='flex';
+  initAll();
+}
+
+function doLogout(){
+  localStorage.setItem('iv_li','false');
+  document.getElementById('AS').style.display='none';
+  document.getElementById('bnav').style.display='none';
+  document.getElementById('LS').style.display='flex';
+}
+
+if(D.loggedIn) launchApp();
+
+function initAll(){
+  initDate();initWeek();initTasks();initJournal();
+  initHabits();renderExp();updateMoney();initProf();
+  renderNotes();renderGoals();renderWins();renderMoods();
+  renderConfs();renderPeople();renderSleeps();initVision();
+  randAff();showVocab();initBet();
+  document.getElementById('sessCount').textContent=Math.min(D.sessions,3);
+}
+
+function initDate(){
+  const now=new Date();
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dateDisp').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+  const today=now.toDateString();
+  if(D.lastDate!==today){
+    if(D.lastDate===new Date(now-86400000).toDateString()) D.streak++;
+    else D.streak=1;
+    D.lastDate=today;
+    localStorage.setItem('iv_s',D.streak);
+    localStorage.setItem('iv_ld',today);
+  }
+  document.getElementById('strBadge').textContent='🔥 Day '+D.streak;
+  ['stStr','stStr2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=D.streak;});
+}
+
+function initWeek(){
+  const g=document.getElementById('wgrid');
+  const dl=['S','M','T','W','T','F','S'];
+  const today=new Date().getDay();
+  g.innerHTML='';
+  dl.forEach((d,i)=>{
+    const el=document.createElement('div');
+    el.className='wd'+(D.weekDays.includes(i)?' done':'')+(i===today?' today':'');
+    el.innerHTML='<div class="wdl">'+d+'</div><div class="wdd"></div>';
+    el.onclick=()=>{
+      const idx=D.weekDays.indexOf(i);
+      if(idx===-1) D.weekDays.push(i); else D.weekDays.splice(idx,1);
+      localStorage.setItem('iv_wd',JSON.stringify(D.weekDays));
+      initWeek();
+    };
+    g.appendChild(el);
+  });
+}
+
+function updProg(){
+  const ids=['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12'];
+  const done=ids.filter(id=>D.tasks[id]).length;
+  const pct=Math.round(done/ids.length*100);
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('progFill').style.width=pct+'%';
+  const msgs=[
+    'Begin your day. Every task is a vote for who you are becoming.',
+    'Good start. Keep going.',
+    'Halfway there. This is where most people stop. Not you.',
+    'Almost done. The man you are becoming does the full thing.',
+    'Morning complete. You chose yourself today.'
+  ];
+  document.getElementById('progMsg').textContent=done===ids.length?msgs[4]:msgs[Math.min(Math.floor(done/ids.length*4),3)];
+  ['stTasks','stTasks2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=done;});
+}
+
+function tog(card){
+  const id=card.dataset.id;
+  D.tasks[id]=!D.tasks[id];
+  localStorage.setItem('iv_t',JSON.stringify(D.tasks));
+  card.classList.toggle('done',D.tasks[id]);
+  showToast(D.tasks[id]?'Done. One step closer.':'Unmarked.');
+  updProg();
+}
+
+function initTasks(){
+  document.querySelectorAll('.tc').forEach(c=>{if(D.tasks[c.dataset.id])c.classList.add('done');});
+  updProg();
+}
+
+function saveJournal(){
+  const today=new Date().toDateString();
+  const e={};
+  ['j1','j2','j3','j4','j5','j6','j7'].forEach(id=>{const el=document.getElementById(id);if(el)e[id]=el.value;});
+  D.journal[today]=e;
+  localStorage.setItem('iv_j',JSON.stringify(D.journal));
+  showToast('Journal saved. You faced yourself today.');
+}
+
+function initJournal(){
+  const today=new Date().toDateString();
+  const e=D.journal[today];
+  if(e)['j1','j2','j3','j4','j5','j6','j7'].forEach(id=>{const el=document.getElementById(id);if(el&&e[id])el.value=e[id];});
+}
+
+function togE(c){
+  c.classList.toggle('open');
+  c.querySelector('.etog').textContent=c.classList.contains('open')?'Tap to collapse':'Tap to expand';
+}
+
+function selM(b,t){
+  b.closest('.mo').querySelectorAll('.mb2').forEach(x=>x.classList.remove('sy','sn'));
+  b.classList.add(t==='y'?'sy':'sn');
+  showToast(t==='y'?'Noted. Stay consistent.':'Noted. Tomorrow is another chance.');
+}
+
+const HABITS=[
+  {id:'h1',icon:'🎰',name:'No Betting Today',desc:'Did not place any bet at all'},
+  {id:'h2',icon:'⚡',name:'No Energy Drinks',desc:'Chose a healthy drink instead'},
+  {id:'h3',icon:'📱',name:'Social Media under 30min',desc:'Stayed focused and disciplined'},
+  {id:'h4',icon:'📚',name:'Read 3 Hours',desc:'Morning, afternoon, and evening sessions'},
+  {id:'h5',icon:'💪',name:'Exercise Done',desc:'20-minute workout completed'},
+  {id:'h6',icon:'💰',name:'Saved 3,000 UGX',desc:'Set aside before spending'},
+  {id:'h7',icon:'🤐',name:'Practiced Silence',desc:'Let others talk 70%, asked questions'},
+  {id:'h8',icon:'⏸️',name:'Paused Before Reacting',desc:'Used the 5-second rule'},
+  {id:'h9',icon:'👔',name:'Dressed Well Today',desc:'Presented myself with self-respect'},
+  {id:'h10',icon:'🇬🇧',name:'English Practice Done',desc:'Mirror speaking and vocabulary'},
+  {id:'h11',icon:'🎨',name:'Freelance Skills Practiced',desc:'Graphics or AI video work done'},
+  {id:'h12',icon:'😴',name:'In Bed by 10pm',desc:'Protecting my recovery and mental clarity'}
+];
+
+function initHabits(){
+  const list=document.getElementById('habitList');
+  list.innerHTML='';
+  HABITS.forEach(h=>{
+    const on=D.habits[h.id]||false;
+    const div=document.createElement('div');
+    div.className='hr';
+    div.innerHTML='<div class="hl"><div class="hico">'+h.icon+'</div><div><div class="hn">'+h.name+'</div><div class="hd">'+h.desc+'</div></div></div><div class="htog'+(on?' on':'')+'" onclick="togH(\''+h.id+'\',this)"></div>';
+    list.appendChild(div);
+  });
+}
+
+function togH(id,el){
+  D.habits[id]=!D.habits[id];
+  localStorage.setItem('iv_h',JSON.stringify(D.habits));
+  el.classList.toggle('on',D.habits[id]);
+  showToast(D.habits[id]?'Habit completed!':'Habit unmarked.');
+}
+
+function setBudget(){
+  const b=parseFloat(document.getElementById('budIn').value)||0;
+  if(!b){showToast('Enter a budget amount.');return;}
+  D.budget=b;
+  localStorage.setItem('iv_bud',b);
+  updateMoney();
+  showToast('Budget set! Now track every shilling.');
+}
+
+function addExp(){
+  const name=document.getElementById('expName').value.trim();
+  const amt=parseFloat(document.getElementById('expAmt').value)||0;
+  const type=document.getElementById('expType').value;
+  const cat=document.getElementById('expCat').value;
+  if(!name||!amt){showToast('Fill in description and amount.');return;}
+  D.expenses.unshift({id:Date.now(),name,amt,type,cat,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_ex',JSON.stringify(D.expenses));
+  document.getElementById('expName').value='';
+  document.getElementById('expAmt').value='';
+  renderExp();updateMoney();
+  showToast(type==='saving'?'Saved! Future Ivan thanks you.':type==='investment'?'Invested! Smart move.':'Transaction recorded.');
+}
+
+function fmt(n){return n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(0)+'K':n.toString();}
+
+function updateMoney(){
+  const spent=D.expenses.filter(e=>e.type==='spending').reduce((a,e)=>a+e.amt,0);
+  const saved=D.expenses.filter(e=>e.type==='saving'||e.type==='investment').reduce((a,e)=>a+e.amt,0);
+  document.getElementById('totSpent').textContent=fmt(spent)+' UGX';
+  document.getElementById('totSaved').textContent=fmt(saved)+' UGX';
+  ['stSaved','stSaved2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=fmt(saved);});
+  if(D.budget){
+    const left=D.budget-spent;
+    const pct=Math.min(Math.round(spent/D.budget*100),100);
+    document.getElementById('budDisp').textContent=fmt(D.budget)+' UGX';
+    document.getElementById('budLeft').textContent=fmt(Math.max(left,0))+' UGX';
+    document.getElementById('remSub').textContent=left<0?'Over budget!':'remaining';
+    document.getElementById('budFill').style.width=pct+'%';
+    document.getElementById('budFill').style.background=pct>85?'linear-gradient(90deg,#C0392B,#E07070)':pct>60?'linear-gradient(90deg,#C9A84C,#E8C97A)':'linear-gradient(90deg,#27AE60,#C9A84C)';
+    document.getElementById('budPct').textContent=pct+'% used';
+    document.getElementById('budLeft').className='msv'+(left<0?' d':' s');
+  }
+  const total=spent+saved;
+  document.getElementById('savRate').textContent='Savings rate: '+(total>0?Math.round(saved/total*100):0)+'%';
+}
+
+const catIco={food:'🍽️',clothes:'👕',entertainment:'🎮',transport:'🚌',savings:'💰',investment:'📈',other:'📦'};
+
+function renderExp(){
+  const list=document.getElementById('expList');
+  const data=D.expFilt==='all'?D.expenses:D.expenses.filter(e=>e.cat===D.expFilt);
+  if(!data.length){list.innerHTML='<div class="empty"><div>💸</div>No transactions yet.</div>';return;}
+  list.innerHTML=data.map(e=>`
+    <div class="ei">
+      <div class="el3">
+        <div class="eco c${e.cat}">${catIco[e.cat]||'📦'}</div>
+        <div><div class="ename">${e.name}</div><div class="edate">${e.date}</div></div>
+      </div>
+      <div class="er3">
+        <div class="eamt ${e.type}">${e.type==='spending'?'-':'+'}${fmt(e.amt)} UGX</div>
+        <button class="delbtn" onclick="delExp(${e.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function filtExp(cat,el){
+  D.expFilt=cat;
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderExp();
+}
+
+function delExp(id){
+  D.expenses=D.expenses.filter(e=>e.id!==id);
+  localStorage.setItem('iv_ex',JSON.stringify(D.expenses));
+  renderExp();updateMoney();
+}
+
+function clearExp(){
+  if(confirm('Clear all transactions?')){
+    D.expenses=[];
+    localStorage.setItem('iv_ex','[]');
+    renderExp();updateMoney();
+  }
+}
+
+let tSecs=3600,tRun=false,tInt=null;
+
+function startTimer(){
+  if(tRun){clearInterval(tInt);tRun=false;document.querySelector('.tbtn2.st').textContent='▶ Start Reading';return;}
+  tRun=true;
+  document.querySelector('.tbtn2.st').textContent='⏸ Pause';
+  tInt=setInterval(()=>{
+    tSecs--;updTimer();
+    if(tSecs<=0){
+      clearInterval(tInt);tRun=false;
+      D.sessions++;
+      localStorage.setItem('iv_sess',D.sessions);
+      document.getElementById('sessCount').textContent=Math.min(D.sessions,3);
+      document.querySelector('.tbtn2.st').textContent='▶ Start Reading';
+      tSecs=3600;updTimer();
+      showToast('1 hour done! '+(3-Math.min(D.sessions,3))+' sessions left today.');
+    }
+  },1000);
+}
+
+function resetTimer(){clearInterval(tInt);tRun=false;tSecs=3600;updTimer();document.querySelector('.tbtn2.st').textContent='▶ Start Reading';}
+function updTimer(){const m=Math.floor(tSecs/60).toString().padStart(2,'0');const s=(tSecs%60).toString().padStart(2,'0');document.getElementById('timerDisp').textContent=m+':'+s;}
+
+function addNote(){
+  const txt=document.getElementById('noteIn').value.trim();
+  if(!txt){showToast('Write something first.');return;}
+  D.notes.unshift({id:Date.now(),txt,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_n',JSON.stringify(D.notes));
+  document.getElementById('noteIn').value='';
+  renderNotes();showToast('Note saved.');
+}
+
+function renderNotes(){
+  const list=document.getElementById('noteList');
+  if(!D.notes.length){list.innerHTML='<div class="empty"><div>📒</div>Your notes will appear here.</div>';return;}
+  list.innerHTML=D.notes.map(n=>`<div class="ne"><div class="ned">${n.date}</div><div class="net">${n.txt}</div></div>`).join('');
+}
+
+function addGoal(){
+  const title=document.getElementById('goalTitle').value.trim();
+  const type=document.getElementById('goalType').value;
+  const pct=Math.min(100,Math.max(0,parseInt(document.getElementById('goalPct').value)||0));
+  if(!title){showToast('Enter a goal.');return;}
+  D.goals.push({id:Date.now(),title,type,pct,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_goals',JSON.stringify(D.goals));
+  document.getElementById('goalTitle').value='';
+  document.getElementById('goalPct').value='';
+  renderGoals();showToast('Goal added!');
+}
+
+function renderGoals(){
+  const list=document.getElementById('goalList');
+  if(!D.goals.length){list.innerHTML='<div class="empty"><div>🎯</div>No goals yet. Add your first goal below.</div>';return;}
+  const labels={month:'1 Month','6month':'6 Months',year:'1 Year'};
+  const colors={month:'month','6month':'sixm',year:'year'};
+  list.innerHTML=D.goals.map(g=>`
+    <div class="gc">
+      <div class="gh">
+        <div class="gtitle">${g.title}</div>
+        <div class="gbadge" style="background:rgba(74,124,255,0.15);color:#85C1E9">${labels[g.type]}</div>
+      </div>
+      <div class="gprog"><div class="gpf" style="width:${g.pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;color:var(--muted)">${g.pct}% complete</span>
+        <button onclick="delGoal(${g.id})" style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function delGoal(id){D.goals=D.goals.filter(g=>g.id!==id);localStorage.setItem('iv_goals',JSON.stringify(D.goals));renderGoals();}
+
+function addWin(){
+  const txt=document.getElementById('winInput').value.trim();
+  if(!txt){showToast('Write your win first.');return;}
+  D.wins.unshift({id:Date.now(),txt,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_wins',JSON.stringify(D.wins));
+  document.getElementById('winInput').value='';
+  renderWins();showToast('Win saved! You are growing.');
+}
+
+function renderWins(){
+  const list=document.getElementById('winList');
+  if(!D.wins.length){list.innerHTML='<div class="empty"><div>🏆</div>Start logging your wins.</div>';return;}
+  list.innerHTML=D.wins.map(w=>`<div class="wi"><div class="wstar">🏆</div><div><div class="wtxt">${w.txt}</div><div class="wdate">${w.date}</div></div></div>`).join('');
+}
+
+function selMoodFn(el,emoji,label){
+  document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  D.selMoodEmoji=emoji;
+  showToast('Feeling '+label+'. Log it below.');
+}
+
+function saveMood(){
+  if(!D.selMoodEmoji){showToast('Select a mood first.');return;}
+  D.moods.unshift({id:Date.now(),emoji:D.selMoodEmoji,note:document.getElementById('moodNote').value,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_moods',JSON.stringify(D.moods));
+  document.getElementById('moodNote').value='';
+  D.selMoodEmoji='';
+  document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));
+  renderMoods();showToast('Mood logged.');
+}
+
+function renderMoods(){
+  const list=document.getElementById('moodHistory');
+  if(!D.moods.length){list.innerHTML='<div class="empty"><div>😊</div>Your mood history will appear here.</div>';return;}
+  list.innerHTML=D.moods.slice(0,14).map(m=>`<div class="ne"><div class="ned">${m.date}</div><div class="net" style="font-size:20px">${m.emoji}${m.note?' <span style="font-size:13px;color:var(--muted)">— '+m.note+'</span>':''}</div></div>`).join('');
+}
+
+function saveConf(){
+  const txt=document.getElementById('confInput').value.trim();
+  if(!txt){showToast('Write something first.');return;}
+  D.confs.unshift({id:Date.now(),txt,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_confs',JSON.stringify(D.confs));
+  document.getElementById('confInput').value='';
+  renderConfs();showToast('Entry saved. The poison is out.');
+}
+
+function renderConfs(){
+  const list=document.getElementById('confList');
+  if(!D.confs.length){list.innerHTML='<div class="empty"><div>🔒</div>Your confession entries will appear here.</div>';return;}
+  list.innerHTML=D.confs.map(c=>`<div class="ne"><div class="ned">${c.date}</div><div class="net">${c.txt}</div></div>`).join('');
+}
+
+function addPerson(){
+  const name=document.getElementById('personName').value.trim();
+  const level=document.getElementById('personLevel').value;
+  if(!name){showToast('Enter a name.');return;}
+  D.people.push({id:Date.now(),name,level,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_people',JSON.stringify(D.people));
+  document.getElementById('personName').value='';
+  renderPeople();showToast('Person added.');
+}
+
+function renderPeople(){
+  const list=document.getElementById('personList');
+  if(!D.people.length){list.innerHTML='<div class="empty"><div>👥</div>Add people from your life to track your relationships.</div>';return;}
+  const lc={'1':'#F1948A','2':'#F0C96A','3':'#82E0AA'};
+  const ln={'1':'Acquaintance','2':'Trusted','3':'Close Friend'};
+  list.innerHTML=D.people.map(p=>`
+    <div class="ne" style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div class="net">${p.name}</div>
+        <div class="ned" style="color:${lc[p.level]}">Level ${p.level} — ${ln[p.level]}</div>
+      </div>
+      <button onclick="delPerson(${p.id})" style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px">✕</button>
+    </div>`).join('');
+}
+
+function delPerson(id){D.people=D.people.filter(p=>p.id!==id);localStorage.setItem('iv_people',JSON.stringify(D.people));renderPeople();}
+
+function logSleep(){
+  const s=document.getElementById('sleepTime').value;
+  const w=document.getElementById('wakeTime').value;
+  if(!s||!w){showToast('Enter both sleep and wake times.');return;}
+  let dur=0;
+  try{
+    const[sh,sm]=s.split(':').map(Number);
+    const[wh,wm]=w.split(':').map(Number);
+    let mins=(wh*60+wm)-(sh*60+sm);
+    if(mins<0) mins+=1440;
+    dur=Math.round(mins/60*10)/10;
+  }catch(e){}
+  D.sleeps.unshift({id:Date.now(),sleep:s,wake:w,dur,date:new Date().toLocaleDateString()});
+  localStorage.setItem('iv_sleeps',JSON.stringify(D.sleeps));
+  renderSleeps();showToast('Sleep logged: '+dur+' hours.');
+}
+
+function renderSleeps(){
+  const list=document.getElementById('sleepList');
+  if(!D.sleeps.length){list.innerHTML='<div class="empty"><div>😴</div>Your sleep history will appear here.</div>';return;}
+  list.innerHTML=D.sleeps.slice(0,14).map(s=>`
+    <div class="ne">
+      <div class="ned">${s.date}</div>
+      <div class="net">Slept ${s.sleep} → Woke ${s.wake} = <strong style="color:${s.dur>=7?'#82E0AA':s.dur>=6?'#F0C96A':'#F1948A'}">${s.dur} hours</strong></div>
+    </div>`).join('');
+}
+
+function initBet(){
+  const e1=document.getElementById('betSaved');
+  const e2=document.getElementById('betDays');
+  const e3=document.getElementById('stBet');
+  if(e1) e1.textContent=fmt(D.betSaved)+' UGX';
+  if(e2) e2.textContent=D.betDays;
+  if(e3) e3.textContent=D.betDays;
+}
+
+function addBetSaving(){
+  const amt=parseFloat(document.getElementById('betAmt').value)||0;
+  if(!amt){showToast('Enter an amount.');return;}
+  D.betSaved+=amt;D.betDays++;
+  localStorage.setItem('iv_bet',D.betSaved);
+  localStorage.setItem('iv_betdays',D.betDays);
+  document.getElementById('betAmt').value='';
+  initBet();showToast(fmt(amt)+' UGX saved! '+D.betDays+' days clean.');
+}
+
+function editVision(id,label){
+  const val=prompt(label+':',D.vision[id]||'');
+  if(val!==null){
+    D.vision[id]=val;
+    localStorage.setItem('iv_vision',JSON.stringify(D.vision));
+    initVision();
+  }
+}
+
+function initVision(){
+  ['vb1','vb2','vb3','vb4','vb5','vb6'].forEach(id=>{
+    const el=document.getElementById(id+'v');
+    const card=document.getElementById(id);
+    if(el&&D.vision[id]){el.textContent=D.vision[id];card.classList.add('set');}
+  });
+}
+
+const VOCABS=[
+  {word:'ARTICULATE',type:'Adjective / Verb',def:'Able to express thoughts and feelings clearly and effectively in speech or writing.',ex:'He was so articulate during the presentation that the entire lecture hall listened attentively.'},
+  {word:'PERSEVERE',type:'Verb',def:'Continue in a course of action in spite of difficulty or opposition.',ex:'You must persevere through the hard days — they are building your character.'},
+  {word:'ASTUTE',type:'Adjective',def:'Having the ability to accurately assess situations or people; shrewd.',ex:'An astute student always observes more than they say.'},
+  {word:'LEVERAGE',type:'Verb / Noun',def:'Use something to maximum advantage; a force that multiplies your effort.',ex:'He used his graphic design skills as leverage to earn money while still at university.'},
+  {word:'DISCERN',type:'Verb',def:'Recognize or find out something with the eyes or mind; perceive clearly.',ex:'You must learn to discern who genuinely supports you and who is envious.'},
+  {word:'ELOQUENT',type:'Adjective',def:'Fluent and persuasive in speaking or writing.',ex:'The most eloquent speakers in any room are those who choose their words carefully.'},
+  {word:'INTEGRITY',type:'Noun',def:'The quality of being honest and having strong moral principles.',ex:'A man of integrity does what he said he would do, even when no one is watching.'},
+  {word:'RESILIENCE',type:'Noun',def:'The capacity to recover quickly from difficulties; mental toughness.',ex:'Your resilience is proven by the fact that you made it to university despite everything.'},
+  {word:'DELIBERATE',type:'Adjective',def:'Done consciously and intentionally; carefully planned.',ex:'Every successful person lives a deliberate life — nothing happens by accident.'},
+  {word:'COMPEL',type:'Verb',def:'Force or oblige someone to do something; drive strongly.',ex:'A strong purpose compels you to work even when you do not feel motivated.'},
+  {word:'INTROSPECT',type:'Verb',def:'Examine ones own thoughts and feelings; look inward honestly.',ex:'The daily journal is an exercise in introspection — the beginning of real change.'},
+  {word:'TENACIOUS',type:'Adjective',def:'Tending to keep a firm hold; persistent; determined.',ex:'The most tenacious students are not always the most talented — they are the most consistent.'},
+];
+
+function showVocab(){
+  const v=VOCABS[D.vocIdx];
+  const w=document.getElementById('vocWord');
+  const t=document.getElementById('vocType');
+  const d=document.getElementById('vocDef');
+  const e=document.getElementById('vocEx');
+  if(w) w.textContent=v.word;
+  if(t) t.textContent=v.type;
+  if(d) d.textContent=v.def;
+  if(e) e.textContent=v.ex;
+}
+
+function nextVocab(){
+  D.vocIdx=(D.vocIdx+1)%VOCABS.length;
+  showVocab();
+}
+
+const AFFS=[
+  '"I am building myself. Not performing for others."',
+  '"My silence is more powerful than my reaction."',
+  '"I invest in myself first. Everything else follows."',
+  '"I am not what happened to me. I am what I choose to become."',
+  '"I do not announce. I demonstrate."',
+  '"My fathers money is not my power. I am building my own."',
+  '"The people who doubted me are my fuel."',
+  '"I respond. I never react. The pause is where I find myself."',
+  '"I save first. I spend what remains. Never the reverse."',
+  '"Every day I choose the person I am becoming over the person I was."',
+  '"I am the only one in my family who made it. I will not waste that."',
+  '"I do not need their validation. I need my discipline."',
+];
+
+function randAff(){
+  const i=Math.floor(Math.random()*AFFS.length);
+  const el=document.getElementById('aff');
+  if(el) el.textContent=AFFS[i];
+}
+
+function nextAff(){
+  const el=document.getElementById('aff');
+  if(!el) return;
+  const cur=el.textContent;
+  let n;
+  do{ n=AFFS[Math.floor(Math.random()*AFFS.length)]; }while(n===cur&&AFFS.length>1);
+  el.textContent=n;
+}
+
+function upPhoto(e){
+  const f=e.target.files[0];
+  if(!f) return;
+  const r=new FileReader();
+  r.onload=res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      const max=400;
+      let w=img.width,h=img.height;
+      if(w>h){if(w>max){h=h*max/w;w=max;}}else{if(h>max){w=w*max/h;h=max;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const data=canvas.toDataURL('image/jpeg',0.8);
+      D.photo=data;
+      try{localStorage.setItem('iv_ph',data);}catch(err){showToast('Photo set for this session only.');}
+      setPhoto(data);
+      showToast('Photo updated!');
+    };
+    img.src=res.target.result;
+  };
+  r.readAsDataURL(f);
+}
+
+function setPhoto(src){
+  ['pPhoto','hdrimg'].forEach(id=>{const img=document.getElementById(id);if(img){img.src=src;img.style.display='block';}});
+  const pi=document.getElementById('pIcon');const hi=document.getElementById('hdrico');
+  if(pi) pi.style.display='none';
+  if(hi) hi.style.display='none';
+}
+
+function saveProf(){
+  D.profile.name=document.getElementById('pnIn').value;
+  D.profile.uni=document.getElementById('puIn').value;
+  D.profile.course=document.getElementById('pcIn').value;
+  D.profile.purpose=document.getElementById('ppIn').value;
+  localStorage.setItem('iv_prof',JSON.stringify(D.profile));
+  const nd=document.getElementById('pNameDisp');
+  if(nd) nd.textContent=D.profile.name;
+  showToast('Profile saved.');
+}
+
+function initProf(){
+  const p=D.profile;
+  const nd=document.getElementById('pNameDisp');if(nd) nd.textContent=p.name||'TUGUMISIRIZA IVAN';
+  const ni=document.getElementById('pnIn');if(ni) ni.value=p.name||'';
+  const ui=document.getElementById('puIn');if(ui) ui.value=p.uni||'';
+  const ci=document.getElementById('pcIn');if(ci) ci.value=p.course||'';
+  const pi=document.getElementById('ppIn');if(pi) pi.value=p.purpose||'';
+  if(D.photo) setPhoto(D.photo);
+}
+
+let cCur='0',cPrv='',cOpr='',cNew=true;
+function cDisp(){document.getElementById('cRes').textContent=parseFloat(cCur).toLocaleString();}
+function cN(n){if(cNew){cCur=n;cNew=false;}else{cCur=cCur==='0'?n:cCur+n;}cDisp();}
+function cDt(){if(cNew){cCur='0.';cNew=false;}else if(!cCur.includes('.'))cCur+='.';cDisp();}
+function cC(){cCur='0';cPrv='';cOpr='';cNew=true;cDisp();document.getElementById('cExpr').textContent='';}
+function cSg(){cCur=(parseFloat(cCur)*-1).toString();cDisp();}
+function cPc(){cCur=(parseFloat(cCur)/100).toString();cDisp();}
+function cOp(op){cPrv=cCur;cOpr=op;cNew=true;document.getElementById('cExpr').textContent=cCur+' '+op;}
+function cEq(){
+  if(!cOpr) return;
+  const a=parseFloat(cPrv),b=parseFloat(cCur);
+  let r=0;
+  if(cOpr==='+')r=a+b;else if(cOpr==='-')r=a-b;else if(cOpr==='*')r=a*b;else if(cOpr==='/')r=b?a/b:0;
+  document.getElementById('cExpr').textContent=cPrv+' '+cOpr+' '+cCur+' =';
+  cCur=r.toString();cOpr='';cPrv='';cNew=true;cDisp();
+}
+
+function sw(name,tabEl){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.getElementById('sec-'+name).classList.add('active');
+}
+
+function swNav(item,name){
+  document.querySelectorAll('.bni').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  item.classList.add('active');
+  document.getElementById('sec-'+name).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}</script>
+</body>
+</html>
